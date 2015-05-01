@@ -1,0 +1,52 @@
+<!-- extend from base layout -->
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>Add Contact</h1>
+  <form action="" method="post" name="add">
+      {{ form.hidden_tag() }}
+      <p>
+          First Name:<br>
+          {{ form.firstname(size=100) }}<br>
+          {% for error in form.firstname.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+          {% endfor %}<br>
+      </p>
+      <p>
+          Last Name:<br>
+          {{ form.lastname(size=100) }}<br>
+          {% for error in form.lastname.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+          {% endfor %}<br>
+      </p>
+      <p>
+          Email:<br>
+          {{ form.email(size=100) }}<br>
+          {% for error in form.email.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+          {% endfor %}<br>
+      </p>
+      <p>
+          Mobile:<br>
+          {{ form.mobile(size=100) }}<br>
+          {% for error in form.mobile.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+          {% endfor %}<br>
+      </p>
+      <p>
+          Work:<br>
+          {{ form.work(size=100) }}<br>
+          {% for error in form.work.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+          {% endfor %}<br>
+      </p>
+      <p>
+          Home:<br>
+          {{ form.home(size=100) }}<br>
+          {% for error in form.home.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+          {% endfor %}<br>
+      </p>
+      <p><input type="submit" value="Add Contact"></p>
+  </form>
+{% endblock %}

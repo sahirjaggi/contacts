@@ -1,0 +1,5 @@
+*.pyc
+Vagrantfile
+/.vagrant
+config.py
+/mysql:

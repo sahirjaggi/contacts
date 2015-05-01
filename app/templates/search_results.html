@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block content %}
+    <h1>Hi, {{ user.firstname }}!</h1>
+    <form action="{{ url_for('search') }}" method="post" name="search">
+    	{{ g.search_form.hidden_tag() }}
+    	{{ g.search_form.search(size=20) }}
+    	<input type="submit" value="Search">
+    </form>
+    {% for contact in results %}
+    <div><p>{{ contact }}: <b>{{ contact.email }}</b></p></div>
+    {% endfor %}
+{% endblock %}
