@@ -59,5 +59,22 @@ class NewContact(Form):
 	    else:
 	      return True
 
+class EditContact(Form):
+	firstname = StringField('firstname', validators=[DataRequired()])
+	lastname = StringField('lastname', default=None)
+	email = StringField('email', default=None)
+	mobile = StringField('mobile', default=None)
+	work = StringField('work', default=None)
+	home = StringField('home', default=None)
+ 
+	def __init__(self, *args, **kwargs):
+	    Form.__init__(self, *args, **kwargs)
+	 
+	def validate(self):
+	    if not Form.validate(self):
+	      return False
+	    else:
+	      return True
+
 class SearchForm(Form):
     search = StringField('search', validators=[DataRequired()])

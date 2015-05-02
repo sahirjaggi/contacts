@@ -7,47 +7,21 @@ from datetime import datetime
 
 @app.route('/')
 
-@app.before_request
-def before_request():
-    if 'email' not in session:
-        return redirect(url_for('login'))
-
-    g.user = User.query.filter_by(email = session['email']).first()
- 
-    if g.user is None:
-        return redirect(url_for('login'))
-    else:
-        #g.user.last_seen = datetime.utcnow()
-        #db.session.add(g.user)
-        #db.session.commit()
-        g.search_form = SearchForm()
-        return
-
 @app.route('/index')
 def index():
 
-    if 'email' not in session:
-      return redirect(url_for('login'))
-    
-    user = User.query.filter_by(email = session['email']).first()
-    userid = user.uid
+  if 'email' in session:
+    return redirect(url_for('list'))
+    return render_template('index.html')
 
-    if user is None:
-      return redirect(url_for('login'))
-
-    contacts = Contact.query.filter_by(user_id=userid).order_by(Contact.firstname).all()
-
-    return render_template("index.html",
-                           title='Home',
-                           user=user,
-                           contacts=contacts)
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
-  form = SignupForm()
 
   if 'email' in session:
   	return redirect(url_for('list'))
+
+  form = SignupForm()
    
   if request.method == 'POST':
     if form.validate() == False:
@@ -63,12 +37,14 @@ def signup():
   elif request.method == 'GET':
     return render_template('signup.html', form=form)
 
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-  form = LoginForm()
 
   if 'email' in session:
   	return redirect(url_for('list'))
+
+  form = LoginForm()
    
   if request.method == 'POST':
     if form.validate() == False:
@@ -80,37 +56,49 @@ def login():
   elif request.method == 'GET':
     return render_template('login.html', form=form)
 
+
 @app.route('/logout')
 def logout():
  
   if 'email' not in session:
-    return redirect(url_for('logout'))
+    return redirect(url_for('login'))
      
   session.pop('email', None)
-  return redirect(url_for('index'))
+  return redirect(url_for('login'))
+
 
 @app.route('/list')
 def list():
-  form = SearchForm()
  
   if 'email' not in session:
     return redirect(url_for('login'))
  
   user = User.query.filter_by(email = session['email']).first()
-  contacts = user.contacts.all()
+  contacts = user.contacts.order_by(Contact.firstname).all()
  
   if user is None:
     return redirect(url_for('login'))
   else:
+    form = SearchForm()
     return render_template('list.html', user=user, contacts=contacts, form=form)
 
-##@app.route('/list_item/<contactid>')
-##def list_item(contactid):
-  ##  return render_template('list_item.html', contact=contactid)
+
+@app.route('/list_item/<contactid>')
+def list_item(contactid):
+  contact = Contact.query.filter_by(id = contactid).first()
+  return render_template('list_item.html', contact=contact)
+
+
+@app.route('/delete/<contactid>')
+def delete(contactid):
+  contact = Contact.query.filter_by(id = contactid).first()
+  db.session.delete(contact)
+  db.session.commit()
+  return redirect(url_for('list'))
+
 
 @app.route('/add', methods=['GET', 'POST'])
 def add():
-  form = NewContact()
 
   if 'email' not in session:
   	return redirect(url_for('login'))
@@ -119,6 +107,7 @@ def add():
  
   if user is None:
     return redirect(url_for('login'))
+  form = NewContact()
   
   if request.method == 'POST':
     if form.validate() == False:
@@ -133,6 +122,41 @@ def add():
   elif request.method == 'GET':
     return render_template('add.html', form=form)
 
+
+@app.route('/edit/<contactid>', methods=['GET', 'POST'])
+def edit(contactid):
+  form = EditContact()
+
+  if 'email' not in session:
+    return redirect(url_for('login'))
+
+  user = User.query.filter_by(email = session['email']).first()
+ 
+  if user is None:
+    return redirect(url_for('login'))
+
+  contact = Contact.query.filter_by(id = contactid).first()
+
+  if request.method == 'POST':
+    if form.validate() == False:
+      return render_template('add.html', form=form)
+    else:
+      contact.firstname = form.firstname.data
+      contact.lastname = form.lastname.data
+      contact.email = form.email.data      
+      contact.mobile = form.mobile.data
+      db.session.commit()
+      flash('User Updated')
+      return redirect(url_for('list_item', contactid=contact.id))
+          
+  elif request.method == 'GET':
+    form.firstname.data = contact.firstname
+    form.lastname.data = contact.lastname
+    form.email.data = contact.email
+    form.mobile.data = contact.mobile
+    return render_template('add.html', form=form)
+
+
 @app.route('/search', methods=['POST'])
 def search():
     if 'email' not in session:
@@ -143,15 +167,11 @@ def search():
     if user is None:
       return redirect(url_for('login'))
     else:
-      if not g.search_form.validate_on_submit():
-        return redirect(url_for('list'))
-      return redirect(url_for('search_results', query=g.search_form.search.data))
+      return redirect(url_for('search_results', query=request.form.get('search')))
+
 
 @app.route('/search_results/<query>')
 def search_results(query):
-    term = '*'+query+'*'
-    results = Contact.query.whoosh_search(term, MAX_SEARCH_RESULTS).all()
-    form = g.search_form
  
     if 'email' not in session:
       return redirect(url_for('login'))
@@ -161,6 +181,9 @@ def search_results(query):
     if user is None:
       return redirect(url_for('login'))
     else:
+      term = query+'*'
+      results = Contact.query.whoosh_search(term, MAX_SEARCH_RESULTS).all()
+      form = SearchForm()
       return render_template('search_results.html',
                            user=user,
                            query=query,

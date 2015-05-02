@@ -35,7 +35,7 @@ class User(db.Model):
 
 class Contact(db.Model):
 	__tablename__ = 'contacts'
-	__searchable__ = ['firstname', 'lastname', 'email']
+	__searchable__ = ['firstname', 'lastname']
 
 	id = db.Column(db.Integer, primary_key = True)
 	firstname = db.Column(db.String(100))
