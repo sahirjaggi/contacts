@@ -33,6 +33,7 @@ class User(db.Model):
 	def check_password(self, password):
 	    return check_password_hash(self.pwdhash, password)
 
+    
 class Contact(db.Model):
 	__tablename__ = 'contacts'
 	__searchable__ = ['firstname', 'lastname']
@@ -58,7 +59,7 @@ class Contact(db.Model):
 	  	self.created = created
 	
 	def __repr__(self):
-		return '<Contact %r>' % (self.firstname)
+		return (self.firstname + ' ' + self.lastname)
 
 if enable_search:
     whooshalchemy.whoosh_index(app, Contact)

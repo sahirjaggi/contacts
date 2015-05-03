@@ -1,12 +1,19 @@
-{% extends "base.html" %}
-{% block content %}
-    <h1>Hi, {{ user.firstname }} and your search for {{ query }}!</h1>
-    <form action="{{ url_for('search') }}" method="post" name="search">
-    	{{ form.hidden_tag() }}
-    	{{ form.search(size=30) }}
-    	<input type="submit" value="Search">
-    </form>
-    {% for contact in results %}
-    <div><p>{{ contact }}: <b>{{ contact.email }}</b></p></div>
-    {% endfor %}
+{% extends "base.html" %} {% block content %}
+<div class="content">
+    <a href="{{ url_for('list')}}"><div class="nix">{{ query }} &#x2715</div></a>
+    <ul class="contacts">
+        {% for contact in results %}
+        <a href="{{ url_for('list_item', contactid=contact.id )}}">
+            <li class="contact">
+                <ul class="info">
+                    <li class="name">{{ contact }}</li>
+                    <li class="email">{{ contact.email }}</li>
+                    <li class="phone">(212) 588-5102</li>
+                    <li class="company">Columbia University</li>
+                </ul>
+            </li>
+        </a>
+        {% endfor %}
+    </ul>
+</div>
 {% endblock %}

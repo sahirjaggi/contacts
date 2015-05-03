@@ -1,0 +1,269 @@
+/* 	CSS
+	Sahir Jaggi
+	May 2015
+*/
+
+@import url("http://fonts.googleapis.com/css?family=Lato:100,300,400,700");
+/* Typography
+------------------------------------------------------------ */
+
+* {
+    font-size: 100%;
+    font-family: 'Lato', sans-serif;
+    font-weight: 300;
+    text-align: left;
+    line-height: 120%;
+    color: #3F3F3F;
+}
+/* Links
+------------------------------------------------------------ */
+
+a:link,
+a:visited {
+    color: #808080;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #4BC4F2;
+    text-decoration: none;
+}
+
+a:hover h6 {
+    color: #4BC4F2;
+}
+
+a:active {
+    color: #FFFFFF;
+    text-decoration: none;
+}
+
+a.current {
+    color: #000000;
+}
+/* Header
+------------------------------------------------------------ */
+
+.header {
+    margin-top: 0px;
+    height: 36px;
+    position: relative;
+}
+
+.topsection {
+    margin-top: 10px;
+}
+
+.logo {
+    margin-left: 20px;
+    font-size: 120%;
+}
+
+.menu li {
+    list-style: none;
+    display: inline;
+    margin: 0 10px;
+    float: right;
+    padding: 0 10px;
+}
+/* Body
+------------------------------------------------------------ */
+
+body {
+    margin: 0 !important;
+    padding: 0 !important;
+    height: 100vh;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+/* Search
+------------------------------------------------------------ */
+
+.searchBar {
+    margin-top: 0px;
+    height: 48px;
+    background-color: #5291AD;
+}
+
+.searchForm {
+    position: relative;
+    margin-left: auto;
+    margin-right: auto;
+    padding-top: 10px;
+    width: 48vw;
+}
+
+.searchField {
+    height: 28px;
+    width: 42vw;
+    font-family: Lato, sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    border-radius: 2px;
+    border-width: 1px;
+    text-indent: 16px;
+    float: left;
+    margin-right: none;
+}
+
+.button {
+    color: white;
+    background-color: #2E5160;
+    height: 28px;
+    width: 6vw;
+    font-family: Lato, sans-serif;
+    font-weight: 100;
+    font-size: 16px;
+    border-radius: 2px;
+    border-width: 0;
+    text-align: center;
+    float: right;
+}
+
+.nix {
+    width: 20vw;
+    height: 30px;
+    margin-left: auto;
+    margin-right: auto;
+    border-style: solid;
+    border-width: 1px;
+    border-color: lightgray;
+    margin-top: 10px;
+    text-align: center;
+}
+
+.nix:hover {
+    background-color: pink;
+}
+/* Messages
+------------------------------------------------------------ */
+
+ul.messages {
+    width: 100vw;
+    margin: 0;
+    padding: 0;
+}
+
+.messages li {
+    list-style-type: none;
+    height: 14px;
+    background-color: lightpink;
+    font-size: 92%;
+    padding: 10px 0;
+    margin: 0px;
+    text-align: center;
+}
+
+.message {
+    border-style: solid;
+    border-width: 1px;
+    border-color: lightgray;
+}
+/* Contacts
+------------------------------------------------------------ */
+
+ul.contacts {
+    text-align: center;
+    width: 80vw;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0;
+}
+
+.contacts li {
+    list-style-type: none;
+    height: 16px;
+    font-size: 92%;
+    padding: 10px 0;
+    margin: 0px;
+}
+
+.contact {
+    border-style: solid;
+    border-width: 1px;
+    border-color: lightgray;
+}
+
+.name,
+.email,
+.phone,
+.company {
+    width: 16vw;
+}
+
+.name {
+    font-weight: 700;
+}
+
+.contact:hover {
+    background-color: azure;
+}
+
+.info li {
+    list-style: none;
+    display: inline;
+    margin: 0 10px;
+    float: left;
+    padding: 0 10px;
+}
+
+.contactinfo {
+    overflow: auto;
+}
+
+.contactname {
+    font-size: 160%;
+    padding: 0 10px 0;
+}
+
+.contactinfo li {
+    list-style-type: none;
+    height: 12px;
+    font-size: 92%;
+    padding: 12px 0;
+    margin: 0px;
+}
+
+.editbuttons div {
+    display: inline;
+    color: white;
+    width: 160px;
+    text-align: center;
+}
+
+#editbutton {
+    float: left;
+}
+
+#deletebutton {
+    float: right;
+}
+
+.infoleft {
+    float: left;
+    margin: 0;
+    padding: 0 10px 0;
+}
+
+.inforight {
+    float: right;
+    margin: 0;
+    padding: 0 10px 0;
+}
+
+div.editbuttons {
+    background-color: #5291AD;
+    vertical-align: middle;
+    height: 10px;
+    padding: 10px 0 20px;
+    margin: 10px 0 0;
+}
+
+.fullcontact {
+    width: 320px;
+    position: relative;
+    margin: 20px auto;
+    padding: 0;
+    overflow: auto;
+    border: solid;
+}

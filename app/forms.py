@@ -22,6 +22,7 @@ class LoginForm(Form):
       self.email.errors.append("Invalid e-mail or password")
       return False
 
+    
 class SignupForm(Form):
 	firstname = StringField('firstname', validators=[DataRequired()])
 	lastname = StringField('lastname', validators=[DataRequired()])
@@ -42,6 +43,7 @@ class SignupForm(Form):
 	    else:
 	      return True
 
+    
 class NewContact(Form):
 	firstname = StringField('firstname', validators=[DataRequired()])
 	lastname = StringField('lastname', default=None)
@@ -59,6 +61,7 @@ class NewContact(Form):
 	    else:
 	      return True
 
+    
 class EditContact(Form):
 	firstname = StringField('firstname', validators=[DataRequired()])
 	lastname = StringField('lastname', default=None)
@@ -76,5 +79,6 @@ class EditContact(Form):
 	    else:
 	      return True
 
+    
 class SearchForm(Form):
     search = StringField('search', validators=[DataRequired()])

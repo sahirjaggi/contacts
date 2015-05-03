@@ -1,37 +1,58 @@
 <html>
-  <head>
-    {% if title %}
-    <title>{{ title }} - Contacts</title>
-    {% else %}
-    <title>Welcome to Contacts</title>
-    {% endif %}
-    <div class="container">
-      <h1 class="logo">Flask App</h1>
-      <nav>
-        <ul class="menu">
-          {% if 'email' in session %}
-          <li><a href="{{ url_for('list') }}">Contacts</a></li>
-          <li><a href="{{ url_for('add') }}">Add New</a></li>
-          <li><a href="{{ url_for('logout') }}">Log Out</a></li>
-          {% else %}
-          <li><a href="{{ url_for('index') }}">Home</a></li>
-          <li><a href="{{ url_for('login') }}">Log In</a></li>
-          <li><a href="{{ url_for('signup') }}">Sign Up</a></li>
-          {% endif %}
-        </ul>
-      </nav>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Sahir Jaggi">
+    <meta name="robots" content="nofollow">
+
+    <link rel="shortcut icon" href="img/favicon.ico">
+    <link rel="icon" href="img/favicon.ico">
+    <link href='http://fonts.googleapis.com/css?family=Lato:200,300,400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}">
+    <script src="{{ url_for('static', filename='js/jquery-1.11.2.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+
+    <title>Welcome to Rolodex</title>
+</head>
+
+<body>
+    <div class="header">
+        <div class="topsection">
+            <nav>
+                <ul class="menu">
+                    {% if 'email' in session %}
+                    <li><a href="{{ url_for('logout') }}">Log Out</a>
+                    </li>
+                    <li><a href="{{ url_for('add') }}">Add New</a>
+                    </li>
+                    {% else %}
+                    <li><a href="{{ url_for('login') }}">Log In</a>
+                    </li>
+                    <li><a href="{{ url_for('signup') }}">Sign Up</a>
+                    </li>
+                    <li><a href="{{ url_for('index') }}">Home</a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </nav>
+            <h1 class="logo"><a href="{{ url_for('list') }}">ROLODEX</a></h1>
+        </div>
     </div>
-  </head>
-  <body>
-    {% with messages = get_flashed_messages() %}
-      {% if messages %}
-        <ul>
+    {% with messages = get_flashed_messages() %} {% if messages %}
+    <ul class="messages">
         {% for message in messages %}
-            <li>{{ message }} </li>
+        <li class="message">{{ message }} </li>
         {% endfor %}
-        </ul>
-      {% endif %}
-    {% endwith %}
-    {% block content %}{% endblock %}
-  </body>
+    </ul>
+    {% endif %} {% endwith %} {% if 'email' in session %}
+    <div class="searchBar">
+        <form class='searchForm' action="{{ url_for('search') }}" method="post" name="search">
+            {{ searchform.hidden_tag() }} {{ searchform.search(class_="searchField") }}
+            <input type="submit" value="Search" class="button">
+        </form>
+    </div>
+    {% endif %} {% block content %}{% endblock %}
+</body>
+
 </html>

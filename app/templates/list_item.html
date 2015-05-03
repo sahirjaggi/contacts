@@ -1,4 +1,21 @@
-{% extends "base.html" %}
-{% block content %}
-    <h1>Hi, {{ contact }}!</h1>
+{% extends "base.html" %} {% block content %}
+<div class="fullcontact">
+    <div class="contactinfo">
+        <h1 class="contactname">{{ contact }}</h1>
+        <ul class="infoleft">
+            {% for label in labels %}
+            <li class="label">{{ label }} </li>
+            {% endfor %}
+        </ul>
+        <ul class="inforight">
+            {% for attribute in attributes %}
+            <li class="attribute">{{ attribute }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="editbuttons">
+        <a href="{{ url_for('edit', contactid=contact.id )}}"><div id="editbutton">EDIT</div></a>
+        <a href="{{ url_for('delete', contactid=contact.id )}}"><div id="deletebutton">DELETE</div></a>
+    </div>
+</div>
 {% endblock %}

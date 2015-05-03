@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, flash, session, redirect, url_for, request, g
 from app import app, db, models
 from config import MAX_SEARCH_RESULTS
-from forms import LoginForm, SignupForm, NewContact, SearchForm
+from forms import LoginForm, SignupForm, NewContact, EditContact, SearchForm
 from models import db, User, Contact
 from datetime import datetime
 
@@ -79,14 +79,23 @@ def list():
   if user is None:
     return redirect(url_for('login'))
   else:
-    form = SearchForm()
-    return render_template('list.html', user=user, contacts=contacts, form=form)
+    searchform = SearchForm()
+    return render_template('list.html', user=user, contacts=contacts, searchform=searchform)
 
 
 @app.route('/list_item/<contactid>')
 def list_item(contactid):
+  searchform = SearchForm()
   contact = Contact.query.filter_by(id = contactid).first()
-  return render_template('list_item.html', contact=contact)
+  columns = ['email', 'mobile', 'work', 'home', 'created']
+  attributes = []
+  labels = []
+  for column in columns:
+    info = getattr(contact, column)
+    if (str(info) != ''):
+        attributes.append(info)
+        labels.append(column)
+  return render_template('list_item.html', contact=contact, searchform=searchform, attributes=attributes, labels=labels)
 
 
 @app.route('/delete/<contactid>')
@@ -108,10 +117,11 @@ def add():
   if user is None:
     return redirect(url_for('login'))
   form = NewContact()
-  
+  searchform = SearchForm()
+
   if request.method == 'POST':
     if form.validate() == False:
-      return render_template('add.html', form=form)
+      return render_template('add.html', form=form, searchform=searchform)
     else:
       newcontact = Contact(form.firstname.data, form.lastname.data, form.email.data, form.mobile.data, form.work.data, form.home.data, user.uid, datetime.now())
       db.session.add(newcontact)
@@ -120,12 +130,11 @@ def add():
       return redirect(url_for('list'))
           
   elif request.method == 'GET':
-    return render_template('add.html', form=form)
+    return render_template('add.html', form=form, searchform=searchform)
 
 
 @app.route('/edit/<contactid>', methods=['GET', 'POST'])
 def edit(contactid):
-  form = EditContact()
 
   if 'email' not in session:
     return redirect(url_for('login'))
@@ -136,10 +145,12 @@ def edit(contactid):
     return redirect(url_for('login'))
 
   contact = Contact.query.filter_by(id = contactid).first()
-
+  form = EditContact()
+  searchform = SearchForm()
+    
   if request.method == 'POST':
     if form.validate() == False:
-      return render_template('add.html', form=form)
+      return render_template('edit.html', form=form, searchform=searchform)
     else:
       contact.firstname = form.firstname.data
       contact.lastname = form.lastname.data
@@ -154,7 +165,7 @@ def edit(contactid):
     form.lastname.data = contact.lastname
     form.email.data = contact.email
     form.mobile.data = contact.mobile
-    return render_template('add.html', form=form)
+    return render_template('edit.html', form=form, searchform=searchform)
 
 
 @app.route('/search', methods=['POST'])
@@ -183,9 +194,9 @@ def search_results(query):
     else:
       term = query+'*'
       results = Contact.query.whoosh_search(term, MAX_SEARCH_RESULTS).all()
-      form = SearchForm()
+      searchform = SearchForm()
       return render_template('search_results.html',
                            user=user,
                            query=query,
                            results=results,
-                           form=form)
+                           searchform=searchform)
