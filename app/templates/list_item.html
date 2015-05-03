@@ -14,8 +14,13 @@
         </ul>
     </div>
     <div class="editbuttons">
-        <a href="{{ url_for('edit', contactid=contact.id )}}"><div id="editbutton">EDIT</div></a>
-        <a href="{{ url_for('delete', contactid=contact.id )}}"><div id="deletebutton">DELETE</div></a>
+        <a href="{{ url_for('edit', contactid=contact.id )}}">
+            <div id="editbutton">EDIT</div>
+        </a>
+        <a href="javascript:deleteContact('{{contact.id}}');">
+            <div id="deletebutton">DELETE</div>
+        </a>
     </div>
 </div>
+
 {% endblock %}

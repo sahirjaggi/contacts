@@ -184,6 +184,14 @@ ul.contacts {
     border-color: lightgray;
 }
 
+.info li {
+    list-style: none;
+    display: inline;
+    margin: 0 10px;
+    float: left;
+    padding: 0 10px;
+}
+
 .name,
 .email,
 .phone,
@@ -198,13 +206,16 @@ ul.contacts {
 .contact:hover {
     background-color: azure;
 }
+/* Contact Profile 
+------------------------------------------------------------ */
 
-.info li {
-    list-style: none;
-    display: inline;
-    margin: 0 10px;
-    float: left;
-    padding: 0 10px;
+.fullcontact {
+    width: 320px;
+    position: relative;
+    margin: 20px auto;
+    padding: 0;
+    overflow: auto;
+    border: solid;
 }
 
 .contactinfo {
@@ -258,12 +269,33 @@ div.editbuttons {
     padding: 10px 0 20px;
     margin: 10px 0 0;
 }
+/* Contact Form 
+------------------------------------------------------------ */
 
-.fullcontact {
-    width: 320px;
+.contact_form {
+    margin: 0;
+    padding: 0 10px 0;
+}
+
+.contact_form li {
+    list-style-type: none;
+}
+
+.form_title {
+    font-size: 160%;
+    padding: 0 10px 0;
+}
+
+.form_field {
+    width: 36vw;
+}
+
+.fullform {
     position: relative;
     margin: 20px auto;
     padding: 0;
     overflow: auto;
     border: solid;
+    width: 40vw;
 }
+
