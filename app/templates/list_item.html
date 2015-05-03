@@ -1,4 +1,4 @@
-{% extends "base.html" %} {% block content %}
+{% extends "frame_base.html" %} {% block content %}
 <div class="fullcontact">
     <div class="contactinfo">
         <h1 class="contactname">{{ contact }}</h1>
@@ -13,14 +13,9 @@
             {% endfor %}
         </ul>
     </div>
-    <div class="editbuttons">
-        <a href="{{ url_for('edit', contactid=contact.id )}}">
-            <div id="editbutton">EDIT</div>
-        </a>
-        <a href="javascript:deleteContact('{{contact.id}}');">
-            <div id="deletebutton">DELETE</div>
-        </a>
-    </div>
+    <a href="{{ url_for('edit', contactid=contact.id )}}">
+        <div class="editbutton">EDIT</div>
+    </a>
 </div>
 
 {% endblock %}

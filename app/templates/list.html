@@ -2,7 +2,7 @@
 <div class="content">
     <ul class="contacts">
         {% for contact in contacts %}
-        <a href="{{ url_for('list_item', contactid=contact.id )}}">
+        <a href="javascript:contactOverlay('{{contact.id}}');">
             <li class="contact">
                 <ul class="info">
                     <li class="name">{{ contact }}</li>
@@ -14,5 +14,33 @@
         </a>
         {% endfor %}
     </ul>
+
+    <div class="overlay" id="contact_overlay">
+        <div class="modal">
+            <ul class="iframe_header">
+                <li><a href='#' onclick='contactOverlay()'>&#x2715</a>
+                </li>
+                <li class="card_title">CONTACT INFORMATION</li>
+                <li><a id="delete" href="javascript:deleteContact('0');"><img id="trash" src="../static/imgs/trash.png"</a>
+                </li>
+            </ul>
+            <iframe id="contact_frame" src="{{ url_for('list_item', contactid=0 )}}">
+                <p>Your browser does not support iframes.</p>
+            </iframe>
+        </div>
+    </div>
+    <div class="overlay" id="new_overlay">
+        <div class="modal">
+            <ul class="iframe_header">
+                <li><a href='#' onclick='newOverlay()'>&#x2715</a>
+                </li>
+                <li class="card_title">ADD NEW CONTACT</li>
+                <li> </li>
+            </ul>
+            <iframe id="new_frame" src="{{ url_for('add')}}">
+                <p>Your browser does not support iframes.</p>
+            </iframe>
+        </div>
+    </div>
 </div>
 {% endblock %}

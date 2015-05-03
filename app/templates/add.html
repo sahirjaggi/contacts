@@ -1,4 +1,4 @@
-{% extends "base.html" %} {% block content %}
+{% extends "frame_base.html" %} {% block content %}
 <div class="fullform">
     <form action="" method="post" name="add">
         {{ form.hidden_tag() }}
@@ -11,7 +11,7 @@
                 <span style="color: red;">[{{ error }}]</span> {% endfor %}
                 <br>
             </li>
-            <li>
+            <li class="post_error">
                 Last Name:
                 <br> {{ form.lastname(class_="form_field") }}
             </li>
@@ -32,7 +32,7 @@
                 <br> {{ form.home(class_="form_field") }}
             </li>
             <li>
-                <input type="submit" value="Save Contact">
+                <input class="contact_button" type="submit" value="Save Contact">
             </li>
         </ul>
     </form>
