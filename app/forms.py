@@ -51,6 +51,7 @@ class NewContact(Form):
 	mobile = StringField('mobile', default=None)
 	work = StringField('work', default=None)
 	home = StringField('home', default=None)
+	company = StringField('company', default=None)
  
 	def __init__(self, *args, **kwargs):
 	    Form.__init__(self, *args, **kwargs)
@@ -69,6 +70,7 @@ class EditContact(Form):
 	mobile = StringField('mobile', default=None)
 	work = StringField('work', default=None)
 	home = StringField('home', default=None)
+	company = StringField('company', default=None)
  
 	def __init__(self, *args, **kwargs):
 	    Form.__init__(self, *args, **kwargs)

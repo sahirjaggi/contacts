@@ -2,4 +2,5 @@
 Vagrantfile
 /.vagrant
 config.py
+get-pip.py
 /mysql:

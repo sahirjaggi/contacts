@@ -1,9 +1,12 @@
 from flask import Flask, render_template, request, flash, session, redirect, url_for, request, g
 from app import app, db, models
-from config import MAX_SEARCH_RESULTS
+from config import MAX_SEARCH_RESULTS, CB_API_KEY
 from forms import LoginForm, SignupForm, NewContact, EditContact, SearchForm
 from models import db, User, Contact
 from datetime import datetime
+import pycrunchbase
+
+cb = pycrunchbase.CrunchBase(CB_API_KEY)
 
 @app.route('/')
 
@@ -87,15 +90,19 @@ def list():
 def list_item(contactid):
   searchform = SearchForm()
   contact = Contact.query.filter_by(id = contactid).first()
-  columns = ['email', 'mobile', 'work', 'home', 'created']
+  columns = ['company', 'email', 'mobile', 'work', 'home', 'created']
   attributes = []
   labels = []
   for column in columns:
-    info = getattr(contact, column)
+    info = getattr(contact, column, [''])
     if (str(info) != ''):
         attributes.append(info)
         labels.append(column)
-  return render_template('list_item.html', contact=contact, searchform=searchform, attributes=attributes, labels=labels)
+  co_name = str(getattr(contact, 'company', ['']))
+  if (co_name != ''):
+    return render_template('list_item_plusco.html', contact=contact, searchform=searchform, attributes=attributes, labels=labels, company=cb.organization(co_name))
+  else:
+    return render_template('list_item.html', contact=contact, searchform=searchform, attributes=attributes, labels=labels)
 
 
 @app.route('/delete/<contactid>')
@@ -123,11 +130,12 @@ def add():
     if form.validate() == False:
       return render_template('add.html', form=form, searchform=searchform)
     else:
-      newcontact = Contact(form.firstname.data, form.lastname.data, form.email.data, form.mobile.data, form.work.data, form.home.data, user.uid, datetime.now())
+      time = datetime.now()
+      newcontact = Contact(form.firstname.data, form.lastname.data, form.email.data, form.mobile.data, form.work.data, form.home.data, form.company.data, user.uid, time)
       db.session.add(newcontact)
       db.session.commit()
-
-      return redirect(url_for('list'))
+      contact = Contact.query.filter_by(created = time).first()
+      return redirect(url_for('list_item', contactid=contact.id))
           
   elif request.method == 'GET':
     return render_template('add.html', form=form, searchform=searchform)
@@ -156,6 +164,10 @@ def edit(contactid):
       contact.lastname = form.lastname.data
       contact.email = form.email.data      
       contact.mobile = form.mobile.data
+      contact.work = form.work.data
+      contact.home = form.home.data
+      contact.company = form.company.data
+
       db.session.commit()
       flash('User Updated')
       return redirect(url_for('list_item', contactid=contact.id))
@@ -165,6 +177,9 @@ def edit(contactid):
     form.lastname.data = contact.lastname
     form.email.data = contact.email
     form.mobile.data = contact.mobile
+    form.work.data = contact.work
+    form.home.data = contact.home
+    form.company.data = contact.company
     return render_template('edit.html', form=form, searchform=searchform)
 
 

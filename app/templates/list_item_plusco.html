@@ -1,0 +1,28 @@
+{% extends "frame_base.html" %} {% block content %}
+<div class="fullcontact">
+    <div class="contactinfo">
+        <h1 class="contactname">{{ contact }}</h1>
+        <ul class="infoleft">
+            {% for label in labels %}
+            <li class="label">{{ label }} </li>
+            {% endfor %}
+        </ul>
+        <ul class="inforight">
+            {% for attribute in attributes %}
+            <li class="attribute">{{ attribute }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    <a href="{{ url_for('edit', contactid=contact.id )}}">
+        <div class="editbutton">EDIT</div>
+    </a>
+    <div class"company">
+        <a href="javascript:coExpand()"><div id="expand-one">Company Information</div></a>
+        <div id="content-one">
+            <a href="{{ company.homepage_url }}" target="_blank" >{{ company }}</a>
+            <h2>{{ company.description }}</h2>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

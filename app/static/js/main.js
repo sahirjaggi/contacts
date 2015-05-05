@@ -17,3 +17,8 @@ function newOverlay() {
 	el = document.getElementById("new_overlay");
 	el.style.visibility = (el.style.visibility == "visible") ? "hidden" : "visible";
 }
+
+function coExpand() {
+    el = document.getElementById("content-one");
+    el.style.visibility = (el.style.visibility == "visible") ? "hidden" : "visible";
+}

@@ -45,16 +45,19 @@ class Contact(db.Model):
 	mobile = db.Column(db.String(20))
 	work = db.Column(db.String(20))
 	home = db.Column(db.String(20))
+	company = db.Column(db.String(100))
 	user_id = db.Column(db.Integer, db.ForeignKey('users.uid'))
 	created = db.Column(db.DateTime)
 
-	def __init__(self, firstname, lastname, email, mobile, work, home, user_id, created):
+
+	def __init__(self, firstname, lastname, email, mobile, work, home, company, user_id, created):
 	  	self.firstname = firstname.title()
 	  	self.lastname = lastname.title()
 	  	self.email = email.title()
 	  	self.mobile = mobile.title()
 	  	self.work = work.title()
 	  	self.home = home.title()
+	  	self.company = company.title()
 	  	self.user_id = user_id
 	  	self.created = created
 	

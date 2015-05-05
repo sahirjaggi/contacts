@@ -2,7 +2,6 @@
 <div class="fullform">
     <form action="" method="post" name="add">
         {{ form.hidden_tag() }}
-        <h1 class="form_title">Add Contact</h1>
         <ul class="contact_form">
             <li>
                 First Name:
@@ -30,6 +29,10 @@
             <li>
                 Home:
                 <br> {{ form.home(class_="form_field") }}
+            </li>
+            <li>
+                Company:
+                <br> {{ form.company(class_="form_field") }}
             </li>
             <li>
                 <input class="contact_button" type="submit" value="Save Contact">
